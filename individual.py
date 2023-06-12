@@ -3,7 +3,7 @@ from PyQt5.QtGui import QFont, QMouseEvent
 import pyqtgraph as pg
 import sys
 from PyQt5.QtCore import Qt, QTimer
-import prueba as p
+import Grafica as p
 import asyncio
 import requests
 import datetime
@@ -83,7 +83,7 @@ class GraphWindow(QMainWindow):
         super().__init__(parent)
         self.setWindowTitle("Graph Window")
         try:
-            url = "http://192.168.1.136:8000/bot_data/BTC/USDT"
+            url = f"http://192.168.1.136:8000/bot_data/{self.pair}"
             response = requests.get(url)
             data = response.json()
         except Exception as e:

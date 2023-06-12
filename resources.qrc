@@ -1,0 +1,20 @@
+<RCC>
+  <qresource prefix="iconos">
+    <file>iconos/ethereum_color.svg</file>
+    <file>iconos/binance_color.svg</file>
+    <file>iconos/tether.svg</file>
+    <file>iconos/bitcoin (1).svg</file>
+    <file>iconos/usdc_color.svg</file>
+    <file>iconos/usdc.svg</file>
+    <file>iconos/wallet.svg</file>
+    <file>iconos/bitcoin.svg</file>
+    <file>iconos/bnb.svg</file>
+    <file>iconos/ethereum.svg</file>
+  </qresource>
+  <qresource prefix="navegacion">
+    <file>imagenes_navegacion/trading.svg</file>
+    <file>imagenes_navegacion/arrow.svg</file>
+    <file>imagenes_navegacion/menu.svg</file>
+    <file>imagenes_navegacion/person.svg</file>
+  </qresource>
+</RCC>
