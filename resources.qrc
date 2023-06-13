@@ -11,10 +11,13 @@
     <file>iconos/bnb.svg</file>
     <file>iconos/ethereum.svg</file>
   </qresource>
+  <qresource prefix="login">
+    <file>Login/Position-trading.jpg</file>
+  </qresource>
   <qresource prefix="navegacion">
     <file>imagenes_navegacion/trading.svg</file>
-    <file>imagenes_navegacion/arrow.svg</file>
     <file>imagenes_navegacion/menu.svg</file>
+    <file>imagenes_navegacion/keyboard-arrow.svg</file>
     <file>imagenes_navegacion/person.svg</file>
   </qresource>
 </RCC>

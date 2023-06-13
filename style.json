@@ -1,0 +1,63 @@
+{
+	"QStackedWidget":[
+		{
+			"name":"stackedWidget_2",
+			"transitionAnimation":[
+				{
+					"slide":[
+						{
+							"active":true,
+							"duration": 1000,
+							"direction": "horizontal",
+							"easingCurve": "OutBack"
+						}
+					]
+				}
+			],
+			"navigation":[
+				{
+					"navigationButtons":[
+						{
+							"pushButton_BTC":"page_BTC",
+							"pushButton_BNB":"page_BNB",
+							"pushButton_ETH":"page_ETH",
+							"pushButton_USDC":"page_USDC",
+							"pushButton_CARTERA":"page_CARTERA"
+						}
+					]
+				}
+			]
+	
+		}
+	],
+
+	"QCustomSlideMenu": [{
+		"name": "menu",
+		"defaultSize": [{
+			"width": 0,
+			"height": "parent"
+		}],
+		"collapsedSize": [{
+			"width": 0,
+			"height": "parent"
+		}],
+		"expandedSize": [{
+			"width": 250,
+			"height": "parent"
+		}],
+		"toggleButton": [{
+			"buttonName": "pushButton_5",
+			"icons": [{
+				"whenMenuIsCollapsed": ":/navegacion/imagenes_navegacion/menu.svg",
+				"whenMenuIsExpanded": ":/navegacion/imagenes_navegacion/keyboard-arrow.svg"
+			}]
+			
+		}],
+		"menuTransitionAnimation": [{
+			"animationDuration": 500,
+			"animationEasingCurve": "Linear"
+
+		}]
+		
+	}]
+}
