@@ -27,15 +27,59 @@ class MainWindow(QMainWindow):
         super(MainWindow,self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.ui.pushButton_6.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(1))
+        self.ui.stackedWidget.setCurrentIndex(0)
+        self.int_validator = QIntValidator()
+        self.ui.lineEdit_2.setValidator(self.int_validator)
+        self.ui.lineEdit.setValidator(self.int_validator)
+        self.ui.pushButton_2.clicked.connect(lambda: self.login())
+
+
         self.setMinimumSize(850, 600)
         self.datos = api_bot.api()
         loadJsonStyle(self, self.ui)
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.set_coins)
-        self.timer.start(15000)
+        self.timer.start(2000)
 
         # Lanzar la función set_coins en segundo plano
-        
+
+    def login(self):
+        email = str(self.ui.lineEdit_3.text())
+        password = str(self.ui.lineEdit_4.text())
+        datos = self.datos.login_api(email,password)
+       
+        usdt =datos["USDT"]
+        tf_btc = datos["TF-BTC"]
+        mr_btc = datos["MR-BTC"]
+        mc_btc = datos["MC-BTC"]
+        tf_eth = datos["TF-ETH"]
+        mr_eth = datos["MR-ETH"]
+        mc_eth = datos["MC-ETH"]
+        tf_bnb = datos["TF-BNB"]
+        mr_bnb = datos["MR-BNB"]
+        mc_bnb = datos["MC-BNB"]
+        tf_usdc = datos["TF-USDC"]
+        mr_usdc = datos["MR-USDC"]
+        mc_usdc = datos["MC-USDC"]
+
+
+        self.ui.label_4.setText(str(usdt))
+        self.ui.label_5.setText(str(tf_btc))
+        self.ui.label_6.setText(str(mr_btc))
+        self.ui.label_12.setText(str(mc_btc))
+        self.ui.label_13.setText(str(tf_eth))
+        self.ui.label_14.setText(str(mr_eth))
+        self.ui.label_15.setText(str(mc_eth))
+        self.ui.label_16.setText(str(tf_bnb))
+        self.ui.label_17.setText(str(mr_bnb))
+        self.ui.label_19.setText(str(mc_bnb))
+        self.ui.label_20.setText(str(tf_usdc))
+        self.ui.label_21.setText(str(mr_usdc))
+        self.ui.label_22.setText(str(mc_usdc))
+
+        self.ui.stackedWidget.setCurrentIndex(0)
+                 
 
     def set_coins(self):
         print("Llega a la funcion de set coins")
