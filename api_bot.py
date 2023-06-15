@@ -7,12 +7,10 @@ class api:
         self.ip_port = "http://192.168.1.136:8000/"
     
     def get_bet_bots(self):
-        print("Se llama a la funcion de la api")
         try:
             url = self.ip_port + "bot_data/"
             response = requests.get(url)
             data = response.json()
-            print(data)
             return data
         except Exception as e:
             data = {}
@@ -30,9 +28,11 @@ class api:
             print(e)
             return data  
     
-    def registro(self,email,password):
+    def sing_up_api(self,email,password):
         try:
-            url = self.ip_port + f"{email}/{password}"
+            email_encoded = urllib.parse.quote(email)
+            password_encoded = urllib.parse.quote(password)
+            url = self.ip_port + f"sing_up/{email_encoded}/{password_encoded}"
             response = requests.get(url)
             data = response.json()
             print(data)
@@ -43,11 +43,11 @@ class api:
             return data
     def login_api(self,email,password):
         try:
-            correo_encoded = urllib.parse.quote(email)
-            contraseña_encoded = urllib.parse.unquote(password)
-            print(correo_encoded)
-            print(contraseña_encoded)
-            url = self.ip_port + f"login/{correo_encoded}/{contraseña_encoded}"
+            email_encoded = urllib.parse.quote(email)
+            password_encoded = urllib.parse.quote(password)
+            print(email_encoded)
+            print(password_encoded)
+            url = self.ip_port + f"login/{email_encoded}/{password_encoded}"
 
             response = requests.get(url)
             data = response.json()
@@ -57,9 +57,28 @@ class api:
             data = {}
             print(e)
             return data
+    def sell_buy(self,idUser,coin_compra,compra,coin_venta,venta):
+        try:
+            idUser_encoded = urllib.parse.quote(idUser)
+            coin_compra_encoded = urllib.parse.quote(coin_compra)
+            compra_compra_encoded = urllib.parse.unquote(compra)
+            coin_venta_encoded = urllib.parse.quote(coin_venta)
+            venta_encoded = urllib.parse.unquote(venta)
+            url = self.ip_port + f"sell_buy/{idUser_encoded}/{coin_compra_encoded}/{compra_compra_encoded}/{coin_venta_encoded}/{venta_encoded}"
+
+            response = requests.get(url)
+            data = response.json()
+            
+            return data
+        except Exception as e:
+            data = {"Respuesta":"no"}
+            print(e)
+            return data
+
     
      
 if __name__ == "__main__":
     api = api()
-    resultado = api.login_api("marcos@gmail.com","1234567")
+    # resultado = api.sing_up_api("marcos2@gmail.com","1234567")
+    resultado = api.get_bet_bots()
     print(resultado)

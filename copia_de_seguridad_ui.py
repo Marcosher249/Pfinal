@@ -10,7 +10,10 @@
 
 from PySide2.QtCore import *
 from PySide2.QtGui import *
+
 from PySide2.QtWidgets import *
+
+
 
 from Custom_Widgets.Widgets import QCustomSlideMenu
 
@@ -143,6 +146,7 @@ class Ui_MainWindow(object):
 "\n"
 "}\n"
 "")
+        
         self.centralwidget1 = QWidget(MainWindow)
         self.centralwidget1.setObjectName(u"centralwidget1")
         self.horizontalLayout = QHBoxLayout(self.centralwidget1)
@@ -260,7 +264,7 @@ class Ui_MainWindow(object):
         icon5 = QIcon()
         icon5.addFile(u":/navegacion/imagenes_navegacion/person.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.pushButton_6.setIcon(icon5)
-        self.pushButton_6.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
+        
 
 
         self.gridLayout.addWidget(self.pushButton_6, 5, 0, 1, 1)
@@ -1122,8 +1126,7 @@ class Ui_MainWindow(object):
         self.lineEdit_2.setMinimumSize(QSize(0, 0))
         self.lineEdit_2.setMaximumSize(QSize(16777215, 30))
         self.lineEdit_2.setMaxLength(100)
-        self.int_validator = QIntValidator()
-        self.lineEdit_2.setValidator(self.int_validator)
+        
 
         self.verticalLayout_13.addWidget(self.lineEdit_2)
 
@@ -1137,7 +1140,7 @@ class Ui_MainWindow(object):
         self.lineEdit.setMinimumSize(QSize(0, 0))
         self.lineEdit.setMaximumSize(QSize(16777215, 30))
         self.lineEdit.setMaxLength(100)
-        self.lineEdit.setValidator(self.int_validator)
+        
 
         self.verticalLayout_13.addWidget(self.lineEdit)
 
@@ -1298,7 +1301,7 @@ class Ui_MainWindow(object):
         self.pushButton_2.setMinimumSize(QSize(0, 30))
         self.pushButton_2.setMaximumSize(QSize(200, 16777215))
         self.pushButton_2.setStyleSheet(u"")
-        self.pushButton_2.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
+        
 
         self.horizontalLayout_14.addWidget(self.pushButton_2)
 
@@ -1339,6 +1342,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.stackedWidget)
 
         MainWindow.setCentralWidget(self.centralwidget1)
+        
+    
 
         self.retranslateUi(MainWindow)
 
@@ -1347,8 +1352,8 @@ class Ui_MainWindow(object):
 
 
         QMetaObject.connectSlotsByName(MainWindow)
-    # setupUi
-
+    
+    
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.label_3.setText("")
@@ -1431,4 +1436,3 @@ class Ui_MainWindow(object):
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Login", None))
         self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"Sing Up", None))
     # retranslateUi
-
