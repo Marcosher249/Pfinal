@@ -10,6 +10,7 @@ import pandas as pd
 import api_bot
 import multiprocessing
 import asyncio
+from ui_ventana_de_dialogo import Ui_Dialog
 
 
 #######################################################################################
@@ -20,7 +21,7 @@ class MainWindow(QMainWindow):
         super(MainWindow,self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.pushButton_6.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(1))
+        self.ui.pushButton_6.clicked.connect(lambda: self.login_logout())
         self.ui.stackedWidget.setCurrentIndex(0)
         self.ui.stackedWidget_2.setCurrentIndex(0)
 
@@ -62,6 +63,11 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButton_3.clicked.connect(lambda: self.change_login_singup())
         
+        self.dialog = QDialog()
+        self.ui2 = Ui_Dialog()
+        self.ui2.setupUi(self.dialog)
+
+
         inicio = self.ui.label_28.text()
         self.inicio = str(inicio)
 
@@ -86,6 +92,16 @@ class MainWindow(QMainWindow):
         self.timer.start(2000)
         self.conect= 0
         self.graf = 0
+
+        with open("jsonUser/id_user.json", "r") as archivo:
+            datos = json.load(archivo)
+        
+        if len(datos)!=0:
+            for email in datos:
+                emailRecordado = email
+                contraseña = datos[email]
+            self.login_o_recordar(emailRecordado,contraseña)
+
 
         self.ui.layoutExchange = QVBoxLayout(self.ui.frame_37)
         self.ui.layout_bnb = QVBoxLayout(self.ui.frame_23)
@@ -359,59 +375,66 @@ class MainWindow(QMainWindow):
 
     ###############################################################################
     ################ Funciones de la pagina de login/singup #######################
+    def login_logout(self):
+        estado = self.ui.pushButton_6.text()
 
-    def login_singup(self):
-        if self.inicio == "Login":
+        if estado == "INICIAR SESION":
+            self.ui.stackedWidget.setCurrentIndex(1)
+        else:
+            self.ui2.pushButton.clicked.connect(lambda: self.exchange())
+            self.ui2.pushButton.clicked.connect(lambda: self.reinstaurarData())
+            self.dialog.exec_()
+            
+
+    def cerrar(self):
+        self.dialog.close()
+    
+    def reinstaurarData(self):
+        self.idUser = ""
+        self.usdt = "0"
+        self.tf_btc = "0"
+        self.mr_btc ="0"
+        self.mc_btc ="0"
+        self.tf_eth = "0"
+        self.mr_eth = "0"
+        self.mc_eth = "0"
+        self.tf_bnb = "0"
+        self.mr_bnb = "0"
+        self.mc_bnb = "0"
+        self.tf_usdc = "0"
+        self.mr_usdc = "0"
+        self.mc_usdc = "0"
+
+        self.ui.label_24.setText(self.usdt)
+        self.ui.label_4.setText(self.usdt)
+        self.ui.label_5.setText(self.tf_btc)
+        self.ui.label_6.setText(self.mr_btc)
+        self.ui.label_12.setText(self.mc_btc)
+        self.ui.label_13.setText(self.tf_eth)
+        self.ui.label_14.setText(self.mr_eth)
+        self.ui.label_15.setText(self.mc_eth)
+        self.ui.label_16.setText(self.tf_bnb)
+        self.ui.label_17.setText(self.mr_bnb)
+        self.ui.label_19.setText(self.mc_bnb)
+        self.ui.label_20.setText(self.tf_usdc)
+        self.ui.label_21.setText(self.mr_usdc)
+        self.ui.label_22.setText(self.mc_usdc)
+        datos = {}
+        with open("jsonUser/id_user.json", "w") as archivo:
+            json.dump(datos, archivo)
+        self.ui.pushButton_6.setText("CERRAR SESIÓN")
+        self.dialog.close()
+        
+
+
+        
+
+    def login_singup(self, estado =""):
+        if self.inicio == "Login" or estado =="Login":
             email = str(self.ui.lineEdit_3.text())
             password = str(self.ui.lineEdit_4.text())
-            datos = self.datos.login_api(email,password)
+            self.login_o_recordar(email,password)
 
-            self.idUser = datos["idUser"]
-            dato_round = round(datos["USDT"],3)
-            self.usdt =str(dato_round)
-            dato_round = round(datos["TF-BTC"],3)
-            self.tf_btc = str(dato_round)
-            dato_round = round(datos["MR-BTC"],3)
-            self.mr_btc = str(dato_round)
-            dato_round = round(datos["MC-BTC"],3)
-            self.mc_btc = str(dato_round)
-            dato_round = round(datos["TF-ETH"],3)
-            self.tf_eth = str(dato_round)
-            dato_round = round(datos["MR-ETH"],3)
-            self.mr_eth = str(dato_round)
-            dato_round = round(datos["MC-ETH"],3)
-            self.mc_eth = str(dato_round)
-            dato_round = round(datos["TF-BNB"],3)
-            self.tf_bnb = str(dato_round)
-            dato_round = round(datos["MR-BNB"],3)
-            self.mr_bnb = str(dato_round)
-            dato_round = round(datos["MC-BNB"],3)
-            self.mc_bnb = str(dato_round)
-            dato_round = round(datos["TF-USDC"],3)
-            self.tf_usdc = str(dato_round)
-            dato_round = round(datos["MR-USDC"],3)
-            self.mr_usdc = str(dato_round)
-            dato_round = round(datos["MC-USDC"],3)
-            self.mc_usdc = str(dato_round)
-
-            self.ui.label_24.setText(self.usdt)
-            self.ui.label_4.setText(self.usdt)
-            self.ui.label_5.setText(self.tf_btc)
-            self.ui.label_6.setText(self.mr_btc)
-            self.ui.label_12.setText(self.mc_btc)
-            self.ui.label_13.setText(self.tf_eth)
-            self.ui.label_14.setText(self.mr_eth)
-            self.ui.label_15.setText(self.mc_eth)
-            self.ui.label_16.setText(self.tf_bnb)
-            self.ui.label_17.setText(self.mr_bnb)
-            self.ui.label_19.setText(self.mc_bnb)
-            self.ui.label_20.setText(self.tf_usdc)
-            self.ui.label_21.setText(self.mr_usdc)
-            self.ui.label_22.setText(self.mc_usdc)
-
-            self.ui.pushButton_6.setText("CERRAR SESIÓN")
-
-            self.ui.stackedWidget.setCurrentIndex(0)
         else:
             email = str(self.ui.lineEdit_3.text())
             password = str(self.ui.lineEdit_4.text())
@@ -422,9 +445,70 @@ class MainWindow(QMainWindow):
             self.ui.label_24.setText("1000")
             self.ui.label_4.setText("1000")
 
-            self.ui.stackedWidget.setCurrentIndex(0)
-            
-    
+        if self.ui.checkBox.isChecked():
+            self.guardar_user(email,password)
+            print("El checkbox está seleccionado")
+
+        self.ui.stackedWidget.setCurrentIndex(0)
+
+    def login_o_recordar(self,email,password):
+
+        datos = self.datos.login_api(email,password)
+        print(datos)
+
+        self.idUser = datos["idUser"]
+        dato_round = round(datos["USDT"],3)
+        self.usdt =str(dato_round)
+        dato_round = round(datos["TF-BTC"],3)
+        self.tf_btc = str(dato_round)
+        dato_round = round(datos["MR-BTC"],3)
+        self.mr_btc = str(dato_round)
+        dato_round = round(datos["MC-BTC"],3)
+        self.mc_btc = str(dato_round)
+        dato_round = round(datos["TF-ETH"],3)
+        self.tf_eth = str(dato_round)
+        dato_round = round(datos["MR-ETH"],3)
+        self.mr_eth = str(dato_round)
+        dato_round = round(datos["MC-ETH"],3)
+        self.mc_eth = str(dato_round)
+        dato_round = round(datos["TF-BNB"],3)
+        self.tf_bnb = str(dato_round)
+        dato_round = round(datos["MR-BNB"],3)
+        self.mr_bnb = str(dato_round)
+        dato_round = round(datos["MC-BNB"],3)
+        self.mc_bnb = str(dato_round)
+        dato_round = round(datos["TF-USDC"],3)
+        self.tf_usdc = str(dato_round)
+        dato_round = round(datos["MR-USDC"],3)
+        self.mr_usdc = str(dato_round)
+        dato_round = round(datos["MC-USDC"],3)
+        self.mc_usdc = str(dato_round)
+
+        self.ui.label_24.setText(self.usdt)
+        self.ui.label_4.setText(self.usdt)
+        self.ui.label_5.setText(self.tf_btc)
+        self.ui.label_6.setText(self.mr_btc)
+        self.ui.label_12.setText(self.mc_btc)
+        self.ui.label_13.setText(self.tf_eth)
+        self.ui.label_14.setText(self.mr_eth)
+        self.ui.label_15.setText(self.mc_eth)
+        self.ui.label_16.setText(self.tf_bnb)
+        self.ui.label_17.setText(self.mr_bnb)
+        self.ui.label_19.setText(self.mc_bnb)
+        self.ui.label_20.setText(self.tf_usdc)
+        self.ui.label_21.setText(self.mr_usdc)
+        self.ui.label_22.setText(self.mc_usdc)
+
+        self.ui.pushButton_6.setText("CERRAR SESIÓN")
+
+
+
+    def guardar_user(self,email,password):
+        datos = {email:password}
+        with open("jsonUser/id_user.json", "w") as archivo:
+            json.dump(datos, archivo)
+        
+             
     def change_login_singup(self):
         if self.inicio == "Login":
             self.ui.label_28.setText("Sing Up")
