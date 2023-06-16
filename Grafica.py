@@ -1,8 +1,8 @@
-import sys
 import ccxt as c
 import pandas as pd
 import asyncio
-import json
+
+
 
 
 
@@ -14,6 +14,7 @@ async def tabla(moneda):
     tabla = tabla.set_index('Date')
     tabla.index = tabla.index.tz_localize('UTC').tz_convert('Europe/Madrid')
     tabla.index = tabla.index.strftime('%Y-%m-%d %H:%M:%S')
+
     if moneda == "BTC/USDT":
         tabla.to_csv('csv/datos_btc.csv')
     elif moneda == "ETH/USDT":
@@ -72,8 +73,6 @@ async def datos_graficas():
         await asyncio.sleep(30)
 
     
-
-
 
 if __name__ == '__main__':
     asyncio.run(datos_graficas())

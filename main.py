@@ -1,6 +1,5 @@
-import os
 import sys
-
+from grafica import datos_graficas
 
 from PySide2.QtGui import QPainter
 from PySide2.QtCharts import QtCharts
@@ -8,13 +7,9 @@ from PySide2.QtCore import QTimer
 from ui_bottrade import *
 from Custom_Widgets.Widgets import *
 import pandas as pd
-import asyncio
-import timer
 import api_bot
-
-
-from functools import partial
-
+import multiprocessing
+import asyncio
 
 
 #######################################################################################
@@ -86,31 +81,40 @@ class MainWindow(QMainWindow):
         self.setMinimumSize(850, 600)
         self.datos = api_bot.api()
         loadJsonStyle(self, self.ui)
-        #self.timer = QTimer(self)
-        #self.timer.timeout.connect(self.set_coins)
-        #self.timer.start(2000)
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.set_coins)
+        self.timer.start(2000)
         self.conect= 0
+        self.graf = 0
+
+        self.ui.layoutExchange = QVBoxLayout(self.ui.frame_37)
         self.ui.layout_bnb = QVBoxLayout(self.ui.frame_23)
         self.ui.layout_btc = QVBoxLayout(self.ui.frame_21)
         self.ui.layout_eth = QVBoxLayout(self.ui.frame_34)
         self.ui.layout_usdc = QVBoxLayout(self.ui.frame_26)
+        self.ui.frame_37.setStyleSheet("background-color: transparent;")
+        self.ui.frame_23.setStyleSheet("background-color: transparent;")
+        self.ui.frame_21.setStyleSheet("background-color: transparent;")
+        self.ui.frame_34.setStyleSheet("background-color: transparent;")
+        self.ui.frame_26.setStyleSheet("background-color: transparent;")
 
         self.listcsv = {'csv/datos_bnb.csv':'layout_bnb', 'csv/datos_btc.csv':'layout_btc', 'csv/datos_eth.csv':'layout_eth',
                     'csv/datos_usdc.csv':'layout_usdc'}
         for csv in self.listcsv:
             self.load_data_and_create_chart(csv, self.listcsv[csv])
-        #self.timer = QTimer()
-        #self.timer.timeout.connect(self.update_charts)
-        #self.timer.start(30000)
+        self.timer2 = QTimer(self)
+        self.timer2.timeout.connect(self.update_charts)
+        self.timer2.start(30000)
+        self.timer3 = QTimer()
+    
 
 
     
 
 
     ###############################################################################
-    #########################      Funcion crear graficas      ####################
+    ################     Funcion crear graficas y actualizarlas      ##############
     
-
     def load_data_and_create_chart(self, csv_file, layoot):
         obj_layout = getattr(self.ui, layoot)
 
@@ -125,6 +129,32 @@ class MainWindow(QMainWindow):
             date_time = QDateTime.fromString(date_str, "yyyy-MM-dd hh:mm:ss")
             series.append(date_time.toSecsSinceEpoch(), close)
 
+    def load_data_and_create_chart(self, csv_file_or_list,layoot,moneda=""):
+        obj_layout = getattr(self.ui, layoot)
+
+        # Eliminar el diseño vertical existente, si lo hay
+
+        series = QtCharts.QLineSeries()
+
+        if moneda == "":
+            df = pd.read_csv(csv_file_or_list)
+            
+            for index, row in df.iterrows():
+                date_str = row['Date']
+                close = row['Close']
+                date_time = QDateTime.fromString(date_str, "yyyy-MM-dd hh:mm:ss")
+                series.append(date_time.toSecsSinceEpoch(), close)
+        else:
+            lista = self.datos.get_dataf_pair_bot(moneda)
+            for data_point in lista:
+                date_str = data_point['date']
+                close = data_point['bet']
+                date_time = QDateTime.fromString(date_str, "yyyy-MM-dd hh:mm:ss")
+                series.append(date_time.toSecsSinceEpoch(), close)
+                print("se actualiza el que no se tiene que actualizar")
+                if self.graf == 0:
+                    self.graf=1
+
         chart = QtCharts.QChart()
         chart.addSeries(series)
         chart.createDefaultAxes()
@@ -137,15 +167,24 @@ class MainWindow(QMainWindow):
         chart.setBackgroundBrush(QBrush(background_color))
         chart_view = QtCharts.QChartView(chart)
         chart_view.setRenderHint(QPainter.Antialiasing, True)
+
+        if self.graf !=0:
+            while obj_layout.count() > 0:
+                item = obj_layout.takeAt(0)
+                widget = item.widget()
+                if widget is not None:
+                    widget.deleteLater()
         
         obj_layout.addWidget(chart_view)
         obj_layout.setContentsMargins(0, 0, 0, 0)
         obj_layout.setSpacing(0)
+        self.graf=1
         
 
     def update_charts(self):
-        for csv, frame in self.listcsv.items():
-            self.load_data_and_create_chart(csv, frame)
+        for csv in self.listcsv:
+            self.load_data_and_create_chart(csv, self.listcsv[csv])
+            print("se actualiza")
 
 
  
@@ -163,6 +202,7 @@ class MainWindow(QMainWindow):
             self.ui.pushButton_33.clicked.disconnect()
             self.ui.lineEdit.textChanged.disconnect()
             self.ui.lineEdit_2.textChanged.disconnect()
+
             self.conect= 0
     ###############################################################################
 
@@ -199,6 +239,10 @@ class MainWindow(QMainWindow):
         self.ui.label_32.setText(tope_str)
         self.ui.label_34.setText(usdtstr)
 
+        self.timer3.timeout.connect(self.load_data_and_create_chart("","layoutExchange",moneda))
+        self.timer3.start(1000)
+
+
         usdtint = float(usdtstr)
         tope_int = float(tope_str)
 
@@ -215,6 +259,10 @@ class MainWindow(QMainWindow):
         self.ui.pushButton_33.clicked.connect(lambda: self.sell_buy("USDT",moneda,))
         self.ui.pushButton_34.clicked.connect(lambda: self.sell_buy(moneda,"USDT"))
         self.ui.stackedWidget_2.setCurrentIndex(5)
+
+            
+
+
     
     def focus(self, nombre, self_str, nombre2):
         nombreButt = "pushButton_" + self_str
@@ -538,11 +586,18 @@ class MainWindow(QMainWindow):
     ###############################################################################    
 
 #######################################################################################
+def data_grafica ():
+    asyncio.run(datos_graficas())
+
+
+
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
+    data_grafica_proces = multiprocessing.Process(target=data_grafica)
+    data_grafica_proces.start()
     window.show()
 
     sys.exit(app.exec_())

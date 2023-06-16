@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'interfa_definitivaAeaVMV.ui'
+## Form generated from reading UI file 'interfa_definitivaChjnOb.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -148,7 +148,7 @@ class Ui_MainWindow(object):
 "border:2px solid rgba(0, 0, 176,150);\n"
 "\n"
 "}\n"
-"#stackWidget QVBoxLayout{\n"
+"#frame_23,#frame_21, #frame_34, #frame_26{\n"
 "background-color:trasparent;\n"
 "background:trasparent;\n"
 "}\n"
@@ -1194,33 +1194,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_17.addWidget(self.lineEdit_2)
 
-        self.frame_50 = QFrame(self.frame_51)
-        self.frame_50.setObjectName(u"frame_50")
-        self.frame_50.setMinimumSize(QSize(0, 40))
-        self.frame_50.setFrameShape(QFrame.StyledPanel)
-        self.frame_50.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_25 = QHBoxLayout(self.frame_50)
-        self.horizontalLayout_25.setSpacing(0)
-        self.horizontalLayout_25.setObjectName(u"horizontalLayout_25")
-        self.horizontalLayout_25.setContentsMargins(0, 0, 0, 0)
-        self.pushButton_23 = QPushButton(self.frame_50)
-        self.pushButton_23.setObjectName(u"pushButton_23")
-
-        self.horizontalLayout_25.addWidget(self.pushButton_23)
-
-        self.pushButton_4 = QPushButton(self.frame_50)
-        self.pushButton_4.setObjectName(u"pushButton_4")
-
-        self.horizontalLayout_25.addWidget(self.pushButton_4)
-
-        self.pushButton_22 = QPushButton(self.frame_50)
-        self.pushButton_22.setObjectName(u"pushButton_22")
-
-        self.horizontalLayout_25.addWidget(self.pushButton_22)
-
-
-        self.verticalLayout_17.addWidget(self.frame_50)
-
         self.label_26 = QLabel(self.frame_51)
         self.label_26.setObjectName(u"label_26")
 
@@ -1233,33 +1206,6 @@ class Ui_MainWindow(object):
         self.lineEdit.setMaxLength(100)
 
         self.verticalLayout_17.addWidget(self.lineEdit)
-
-        self.frame_52 = QFrame(self.frame_51)
-        self.frame_52.setObjectName(u"frame_52")
-        self.frame_52.setMinimumSize(QSize(0, 40))
-        self.frame_52.setFrameShape(QFrame.StyledPanel)
-        self.frame_52.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_26 = QHBoxLayout(self.frame_52)
-        self.horizontalLayout_26.setSpacing(0)
-        self.horizontalLayout_26.setObjectName(u"horizontalLayout_26")
-        self.horizontalLayout_26.setContentsMargins(0, 0, 0, 0)
-        self.pushButton_35 = QPushButton(self.frame_52)
-        self.pushButton_35.setObjectName(u"pushButton_35")
-
-        self.horizontalLayout_26.addWidget(self.pushButton_35)
-
-        self.pushButton_36 = QPushButton(self.frame_52)
-        self.pushButton_36.setObjectName(u"pushButton_36")
-
-        self.horizontalLayout_26.addWidget(self.pushButton_36)
-
-        self.pushButton_37 = QPushButton(self.frame_52)
-        self.pushButton_37.setObjectName(u"pushButton_37")
-
-        self.horizontalLayout_26.addWidget(self.pushButton_37)
-
-
-        self.verticalLayout_17.addWidget(self.frame_52)
 
 
         self.verticalLayout_13.addWidget(self.frame_51)
@@ -1460,8 +1406,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(0)
-        self.stackedWidget_2.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget_2.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1476,7 +1422,7 @@ class Ui_MainWindow(object):
         self.pushButton_ETH.setText(QCoreApplication.translate("MainWindow", u"ETH/USDT", None))
         self.pushButton_USDC.setText(QCoreApplication.translate("MainWindow", u"USDC/USDT", None))
         self.pushButton_BTC.setText(QCoreApplication.translate("MainWindow", u"BTC/USDT", None))
-        self.pushButton_6.setText(QCoreApplication.translate("MainWindow", u"INICIAR SESI\u00d3N", None))
+        self.pushButton_6.setText(QCoreApplication.translate("MainWindow", u"INICIAR SESION", None))
         self.label_23.setText(QCoreApplication.translate("MainWindow", u"USDT:", None))
         self.label_24.setText(QCoreApplication.translate("MainWindow", u"0", None))
         self.pushButton_5.setText("")
@@ -1544,14 +1490,8 @@ class Ui_MainWindow(object):
         self.label_34.setText(QCoreApplication.translate("MainWindow", u"0", None))
         self.label_27.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.lineEdit_2.setPlaceholderText("")
-        self.pushButton_23.setText(QCoreApplication.translate("MainWindow", u"Max", None))
-        self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"1/2", None))
-        self.pushButton_22.setText(QCoreApplication.translate("MainWindow", u"1/4", None))
         self.label_26.setText(QCoreApplication.translate("MainWindow", u"USDT", None))
         self.lineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"USDT", None))
-        self.pushButton_35.setText(QCoreApplication.translate("MainWindow", u"Max", None))
-        self.pushButton_36.setText(QCoreApplication.translate("MainWindow", u"1/2", None))
-        self.pushButton_37.setText(QCoreApplication.translate("MainWindow", u"1/4", None))
         self.pushButton_33.setText(QCoreApplication.translate("MainWindow", u"Vender", None))
         self.pushButton_34.setText(QCoreApplication.translate("MainWindow", u"Comprar", None))
         self.label_28.setText(QCoreApplication.translate("MainWindow", u"Login", None))

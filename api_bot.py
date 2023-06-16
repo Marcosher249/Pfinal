@@ -1,6 +1,7 @@
 import requests
 import json
 import urllib.parse
+import asyncio
 
 class api:
     def __init__(self):
@@ -17,16 +18,7 @@ class api:
             print(e)
             return data
 
-    def get_dataf_pair_bot(self,pair,bot):
-        try:
-            url = self.ip_port + f"bot_data/{bot}/{pair}"
-            response = requests.get(url)
-            data = response.json()
-            return data
-        except Exception as e:
-            data = {}
-            print(e)
-            return data  
+
     
     def sing_up_api(self,email,password):
         try:
@@ -76,6 +68,46 @@ class api:
             data = {"Respuesta":"no"}
             print(e)
             return data
+        
+
+    def get_dataf_pair_bot(self,moneda):
+        lista = {"TF-BTC":["TrendFollowingBot","BTC/USDT"],
+                 
+                "MR-BTC":["MeanReversionBot","BTC/USDT"],
+
+                "MC-BTC":["MovingAverageCrossoverBot","BTC/USDT"],
+
+                "TF-ETH":["TrendFollowingBot","ETH/USDT"],
+
+                "MR-ETH":["MeanReversionBot","ETH/USDT"],
+
+                "MC-ETH":["MovingAverageCrossoverBot","ETH/USDT"],
+
+                "TF-BNB":["TrendFollowingBot","BNB/USDT"],
+
+                "MR-BNB":["MeanReversionBot","BNB/USDT"],
+
+                "MC-BNB":["MovingAverageCrossoverBot","BNB/USDT"],
+
+                "TF-USDC":["TrendFollowingBot","USDC/USDT"],
+
+                "MR-USDC":["MeanReversionBot","USDC/USDT"],
+
+                "MC-USDC":["MovingAverageCrossoverBot","USDC/USDT"]}
+        
+        try:
+            url = self.ip_port + f"bot_data/{lista[moneda][0]}/{lista[moneda][1]}"
+            response = requests.get(url)
+            data = response.json()
+            return data
+        
+        except Exception as e:
+            data = {}
+            print(e)
+            return data  
+
+
+
 
     
      

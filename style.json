@@ -1,22 +1,4 @@
 {
-	"QStackedWidget":[
-		{
-			"name":"stackedWidget_2",
-			"transitionAnimation":[
-				{
-					"slide":[
-						{
-							"active":true,
-							"duration": 1000,
-							"direction": "horizontal",
-							"easingCurve": "OutBack"
-						}
-					]
-				}
-			]
-	
-		}
-	],
 
 	"QCustomSlideMenu": [{
 		"name": "menu",
@@ -41,7 +23,7 @@
 			
 		}],
 		"menuTransitionAnimation": [{
-			"animationDuration": 500,
+			"animationDuration": 300,
 			"animationEasingCurve": "Linear"
 
 		}]
