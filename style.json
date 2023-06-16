@@ -13,19 +13,6 @@
 						}
 					]
 				}
-			],
-			"navigation":[
-				{
-					"navigationButtons":[
-						{
-							"pushButton_BTC":"page_BTC",
-							"pushButton_BNB":"page_BNB",
-							"pushButton_ETH":"page_ETH",
-							"pushButton_USDC":"page_USDC",
-							"pushButton_CARTERA":"page_CARTERA"
-						}
-					]
-				}
 			]
 	
 		}

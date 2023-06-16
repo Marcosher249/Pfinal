@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'interfa_definitivaOVGXOW.ui'
+## Form generated from reading UI file 'interfa_definitivaAeaVMV.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -141,6 +141,16 @@ class Ui_MainWindow(object):
 "background:transparent;\n"
 "background-color:transparent;\n"
 "\n"
+"}\n"
+"#frame_51 QPushButton{\n"
+"color:rgb(255, 255, 255);\n"
+"background-color:rgb(19, 44, 127,100);\n"
+"border:2px solid rgba(0, 0, 176,150);\n"
+"\n"
+"}\n"
+"#stackWidget QVBoxLayout{\n"
+"background-color:trasparent;\n"
+"background:trasparent;\n"
 "}\n"
 "")
         self.centralwidget1 = QWidget(MainWindow)
@@ -1163,35 +1173,96 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_13.addItem(self.verticalSpacer_2)
 
-        self.label_27 = QLabel(self.frame_39)
+        self.frame_51 = QFrame(self.frame_39)
+        self.frame_51.setObjectName(u"frame_51")
+        self.frame_51.setFrameShape(QFrame.StyledPanel)
+        self.frame_51.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_17 = QVBoxLayout(self.frame_51)
+        self.verticalLayout_17.setSpacing(2)
+        self.verticalLayout_17.setObjectName(u"verticalLayout_17")
+        self.verticalLayout_17.setContentsMargins(0, 0, 0, 3)
+        self.label_27 = QLabel(self.frame_51)
         self.label_27.setObjectName(u"label_27")
 
-        self.verticalLayout_13.addWidget(self.label_27)
+        self.verticalLayout_17.addWidget(self.label_27)
 
-        self.lineEdit_2 = QLineEdit(self.frame_39)
+        self.lineEdit_2 = QLineEdit(self.frame_51)
         self.lineEdit_2.setObjectName(u"lineEdit_2")
         self.lineEdit_2.setMinimumSize(QSize(0, 0))
         self.lineEdit_2.setMaximumSize(QSize(16777215, 30))
         self.lineEdit_2.setMaxLength(100)
 
-        self.verticalLayout_13.addWidget(self.lineEdit_2)
+        self.verticalLayout_17.addWidget(self.lineEdit_2)
 
-        self.label_26 = QLabel(self.frame_39)
+        self.frame_50 = QFrame(self.frame_51)
+        self.frame_50.setObjectName(u"frame_50")
+        self.frame_50.setMinimumSize(QSize(0, 40))
+        self.frame_50.setFrameShape(QFrame.StyledPanel)
+        self.frame_50.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_25 = QHBoxLayout(self.frame_50)
+        self.horizontalLayout_25.setSpacing(0)
+        self.horizontalLayout_25.setObjectName(u"horizontalLayout_25")
+        self.horizontalLayout_25.setContentsMargins(0, 0, 0, 0)
+        self.pushButton_23 = QPushButton(self.frame_50)
+        self.pushButton_23.setObjectName(u"pushButton_23")
+
+        self.horizontalLayout_25.addWidget(self.pushButton_23)
+
+        self.pushButton_4 = QPushButton(self.frame_50)
+        self.pushButton_4.setObjectName(u"pushButton_4")
+
+        self.horizontalLayout_25.addWidget(self.pushButton_4)
+
+        self.pushButton_22 = QPushButton(self.frame_50)
+        self.pushButton_22.setObjectName(u"pushButton_22")
+
+        self.horizontalLayout_25.addWidget(self.pushButton_22)
+
+
+        self.verticalLayout_17.addWidget(self.frame_50)
+
+        self.label_26 = QLabel(self.frame_51)
         self.label_26.setObjectName(u"label_26")
 
-        self.verticalLayout_13.addWidget(self.label_26)
+        self.verticalLayout_17.addWidget(self.label_26)
 
-        self.lineEdit = QLineEdit(self.frame_39)
+        self.lineEdit = QLineEdit(self.frame_51)
         self.lineEdit.setObjectName(u"lineEdit")
         self.lineEdit.setMinimumSize(QSize(0, 0))
         self.lineEdit.setMaximumSize(QSize(16777215, 30))
         self.lineEdit.setMaxLength(100)
 
-        self.verticalLayout_13.addWidget(self.lineEdit)
+        self.verticalLayout_17.addWidget(self.lineEdit)
 
-        self.verticalSpacer_3 = QSpacerItem(20, 5, QSizePolicy.Minimum, QSizePolicy.Minimum)
+        self.frame_52 = QFrame(self.frame_51)
+        self.frame_52.setObjectName(u"frame_52")
+        self.frame_52.setMinimumSize(QSize(0, 40))
+        self.frame_52.setFrameShape(QFrame.StyledPanel)
+        self.frame_52.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_26 = QHBoxLayout(self.frame_52)
+        self.horizontalLayout_26.setSpacing(0)
+        self.horizontalLayout_26.setObjectName(u"horizontalLayout_26")
+        self.horizontalLayout_26.setContentsMargins(0, 0, 0, 0)
+        self.pushButton_35 = QPushButton(self.frame_52)
+        self.pushButton_35.setObjectName(u"pushButton_35")
 
-        self.verticalLayout_13.addItem(self.verticalSpacer_3)
+        self.horizontalLayout_26.addWidget(self.pushButton_35)
+
+        self.pushButton_36 = QPushButton(self.frame_52)
+        self.pushButton_36.setObjectName(u"pushButton_36")
+
+        self.horizontalLayout_26.addWidget(self.pushButton_36)
+
+        self.pushButton_37 = QPushButton(self.frame_52)
+        self.pushButton_37.setObjectName(u"pushButton_37")
+
+        self.horizontalLayout_26.addWidget(self.pushButton_37)
+
+
+        self.verticalLayout_17.addWidget(self.frame_52)
+
+
+        self.verticalLayout_13.addWidget(self.frame_51)
 
 
         self.verticalLayout_12.addWidget(self.frame_39)
@@ -1390,7 +1461,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(0)
-        self.stackedWidget_2.setCurrentIndex(4)
+        self.stackedWidget_2.setCurrentIndex(3)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1473,8 +1544,14 @@ class Ui_MainWindow(object):
         self.label_34.setText(QCoreApplication.translate("MainWindow", u"0", None))
         self.label_27.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.lineEdit_2.setPlaceholderText("")
+        self.pushButton_23.setText(QCoreApplication.translate("MainWindow", u"Max", None))
+        self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"1/2", None))
+        self.pushButton_22.setText(QCoreApplication.translate("MainWindow", u"1/4", None))
         self.label_26.setText(QCoreApplication.translate("MainWindow", u"USDT", None))
         self.lineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"USDT", None))
+        self.pushButton_35.setText(QCoreApplication.translate("MainWindow", u"Max", None))
+        self.pushButton_36.setText(QCoreApplication.translate("MainWindow", u"1/2", None))
+        self.pushButton_37.setText(QCoreApplication.translate("MainWindow", u"1/4", None))
         self.pushButton_33.setText(QCoreApplication.translate("MainWindow", u"Vender", None))
         self.pushButton_34.setText(QCoreApplication.translate("MainWindow", u"Comprar", None))
         self.label_28.setText(QCoreApplication.translate("MainWindow", u"Login", None))

@@ -7,6 +7,7 @@ from PySide2.QtCharts import QtCharts
 from PySide2.QtCore import QTimer
 from ui_bottrade import *
 from Custom_Widgets.Widgets import *
+import pandas as pd
 import asyncio
 import timer
 import api_bot
@@ -14,14 +15,11 @@ import api_bot
 
 from functools import partial
 
-# if __name__ == '__main__':
-#     app = QApplication(sys.argv)
-#     window = LoginRegisterWindow()
-#     window.show()
-#     sys.exit(app.exec_())
 
 
-
+#######################################################################################
+################################# User Interface ######################################
+ 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow,self).__init__()
@@ -29,8 +27,15 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.ui.pushButton_6.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(1))
         self.ui.stackedWidget.setCurrentIndex(0)
-        
+        self.ui.stackedWidget_2.setCurrentIndex(0)
 
+        self.ui.pushButton_BTC.clicked.connect(lambda: self.cambio_diconnect(4))
+        self.ui.pushButton_BNB.clicked.connect(lambda: self.cambio_diconnect(1))
+        self.ui.pushButton_ETH.clicked.connect(lambda: self.cambio_diconnect(3))
+        self.ui.pushButton_USDC.clicked.connect(lambda: self.cambio_diconnect(2))
+        self.ui.pushButton_CARTERA.clicked.connect(lambda: self.cambio_diconnect(0))
+
+        
         self.ui.pushButton_2.clicked.connect(lambda: self.login_singup())
 
         self.ui.pushButton_13.clicked.connect(lambda: self.exchange("TF-BTC"))
@@ -81,17 +86,162 @@ class MainWindow(QMainWindow):
         self.setMinimumSize(850, 600)
         self.datos = api_bot.api()
         loadJsonStyle(self, self.ui)
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.set_coins)
-        self.timer.start(2000)
-        self.timer2 = QTimer(self)
-        self.timer2.timeout.connect(self.hola)
-        self.timer2.start(3000)
+        #self.timer = QTimer(self)
+        #self.timer.timeout.connect(self.set_coins)
+        #self.timer.start(2000)
+        self.conect= 0
+        self.ui.layout_bnb = QVBoxLayout(self.ui.frame_23)
+        self.ui.layout_btc = QVBoxLayout(self.ui.frame_21)
+        self.ui.layout_eth = QVBoxLayout(self.ui.frame_34)
+        self.ui.layout_usdc = QVBoxLayout(self.ui.frame_26)
 
-        # Lanzar la función set_coins en segundo plano
-    def hola(self):
-        print("hola")
+        self.listcsv = {'csv/datos_bnb.csv':'layout_bnb', 'csv/datos_btc.csv':'layout_btc', 'csv/datos_eth.csv':'layout_eth',
+                    'csv/datos_usdc.csv':'layout_usdc'}
+        for csv in self.listcsv:
+            self.load_data_and_create_chart(csv, self.listcsv[csv])
+        #self.timer = QTimer()
+        #self.timer.timeout.connect(self.update_charts)
+        #self.timer.start(30000)
 
+
+    
+
+
+    ###############################################################################
+    #########################      Funcion crear graficas      ####################
+    
+
+    def load_data_and_create_chart(self, csv_file, layoot):
+        obj_layout = getattr(self.ui, layoot)
+
+        # Eliminar el diseño vertical existente, si lo hay
+
+        df = pd.read_csv(csv_file)
+        series = QtCharts.QLineSeries()
+
+        for index, row in df.iterrows():
+            date_str = row['Date']
+            close = row['Close']
+            date_time = QDateTime.fromString(date_str, "yyyy-MM-dd hh:mm:ss")
+            series.append(date_time.toSecsSinceEpoch(), close)
+
+        chart = QtCharts.QChart()
+        chart.addSeries(series)
+        chart.createDefaultAxes()
+
+        axis_x = QtCharts.QDateTimeAxis()
+        axis_x.setLabelsVisible(False)
+        chart.setAxisX(axis_x, series)
+
+        background_color = QColor(148, 148, 148, 175)
+        chart.setBackgroundBrush(QBrush(background_color))
+        chart_view = QtCharts.QChartView(chart)
+        chart_view.setRenderHint(QPainter.Antialiasing, True)
+        
+        obj_layout.addWidget(chart_view)
+        obj_layout.setContentsMargins(0, 0, 0, 0)
+        obj_layout.setSpacing(0)
+        
+
+    def update_charts(self):
+        for csv, frame in self.listcsv.items():
+            self.load_data_and_create_chart(csv, frame)
+
+
+ 
+
+    ###############################################################################
+
+
+
+    ###############################################################################
+    ######################### Funcion de reseteo de conexiones #################### 
+    def cambio_diconnect(self, indice):
+        self.ui.stackedWidget_2.setCurrentIndex(indice)
+        if self.conect != 0:
+            self.ui.pushButton_34.clicked.disconnect()
+            self.ui.pushButton_33.clicked.disconnect()
+            self.ui.lineEdit.textChanged.disconnect()
+            self.ui.lineEdit_2.textChanged.disconnect()
+            self.conect= 0
+    ###############################################################################
+
+
+    ###############################################################################
+    ####### Funciones en la pagina para realizar las compras y ventas ############# 
+  
+    def exchange(self,moneda):
+
+        self.conect= 1
+        monedas = {
+            'TF-BTC': 'tf_btc',
+            'MR-BTC': 'mr_btc',
+            'MC-BTC': 'mc_btc',
+            'TF-ETH': 'tf_eth',
+            'MR-ETH': 'mr_eth',
+            'MC-ETH': 'mc_eth',
+            'TF-BNB': 'tf_bnb',
+            'MR-BNB': 'mr_bnb',
+            'MC-BNB': 'mc_bnb',
+            'TF-USDC': 'tf_usdc',
+            'MR-USDC': 'mr_usdc',
+            'MC-USDC': 'mc_usdc'
+        }
+
+        if moneda in monedas:
+            self_str = monedas[moneda]
+            print(self_str)
+            tope_str = getattr(self, self_str)
+
+        
+
+        usdtstr = self.usdt
+        self.ui.label_32.setText(tope_str)
+        self.ui.label_34.setText(usdtstr)
+
+        usdtint = float(usdtstr)
+        tope_int = float(tope_str)
+
+        self.int_validator = QIntValidator(0,usdtint)
+        self.int_validator2 = QIntValidator(0,tope_int)
+        self.ui.lineEdit_2.setValidator(self.int_validator2)
+        self.ui.lineEdit.setValidator(self.int_validator)
+        self.ui.lineEdit.textChanged.connect(lambda: self.focus("lineEdit",self_str,"lineEdit_2"))
+        self.ui.lineEdit_2.textChanged.connect(lambda: self.focus("lineEdit_2",self_str,"lineEdit"))
+        
+        self.ui.label_31.setText(moneda)
+        self.ui.label_25.setText(moneda)
+        self.ui.label_27.setText(moneda)
+        self.ui.pushButton_33.clicked.connect(lambda: self.sell_buy("USDT",moneda,))
+        self.ui.pushButton_34.clicked.connect(lambda: self.sell_buy(moneda,"USDT"))
+        self.ui.stackedWidget_2.setCurrentIndex(5)
+    
+    def focus(self, nombre, self_str, nombre2):
+        nombreButt = "pushButton_" + self_str
+
+        objeto = getattr(self.ui, nombre)
+        objeto2 = getattr(self.ui, nombreButt)
+        objeto3 = getattr(self.ui, nombre2)
+
+        if objeto.hasFocus():
+            str_multiplicado = objeto.text()
+            str_multiplicador = objeto2.text()
+
+            if str_multiplicado and str_multiplicador:  # Verificar que las cadenas no estén vacías
+                int_multiplicado = float(str_multiplicado)
+                int_multiplicador = float(str_multiplicador)
+
+                if nombre == "lineEdit":
+                    total = int_multiplicado * int_multiplicador
+                else:
+                    total = int_multiplicado / int_multiplicador
+
+                str_total = str(total)
+                objeto3.setText(str_total)
+            else:
+                objeto3.setText("")      
+            
+            
     def sell_buy(self,coin_compra,coin_venta):
 
         idUser = self.idUser
@@ -100,14 +250,15 @@ class MainWindow(QMainWindow):
         compra = float(str_compra)
         str_venta =self.ui.lineEdit_2.text()
         venta = float(str_venta)
-        respuesta = self.datos.sell_buy(idUser,coin_compra,compra,coin_venta,venta)
+        respuesta = self.datos.sell_buy(idUser,coin_compra,str(compra),coin_venta,str(venta))
         
         
-        if respuesta["respuesta"]=="si":
+        if respuesta["Respuesta"]=="si":
             self.sum_rest(coin_compra,compra,coin_venta,venta)
         else:
             pass
-
+    
+    
     def sum_rest(self,coin_compra,compra,coin_venta,venta):
         
         monedas = {
@@ -150,67 +301,16 @@ class MainWindow(QMainWindow):
 
         self.ui.label_32.setText(str(coin_total))
         self.ui.label_4.setText(str(usdt_total))
+        self.ui.label_24.setText(str(usdt_total))
 
         
 
-    
-    def exchange(self,moneda):
 
-        monedas = {
-            'TF-BTC': 'tf_btc',
-            'MR-BTC': 'mr_btc',
-            'MC-BTC': 'mc_btc',
-            'TF-ETH': 'tf_eth',
-            'MR-ETH': 'mr_eth',
-            'MC-ETH': 'mc_eth',
-            'TF-BNB': 'tf_bnb',
-            'MR-BNB': 'mr_bnb',
-            'MC-BNB': 'mc_bnb',
-            'TF-USDC': 'tf_usdc',
-            'MR-USDC': 'mr_usdc',
-            'MC-USDC': 'mc_usdc'
-        }
+    ###############################################################################
 
-        if moneda in monedas:
-            self_str = monedas[moneda]
-            tope_str = getattr(self, self_str)
 
-        usdtstr = self.usdt
-        usdtint = float(usdtstr)
-        tope_int = float(tope_str)
-
-        self.int_validator = QIntValidator(0,usdtint)
-        self.int_validator2 = QIntValidator(0,tope_int)
-        self.ui.lineEdit_2.setValidator(self.int_validator2)
-        self.ui.lineEdit.setValidator(self.int_validator)
-        self.ui.lineEdit.textChanged.connect(self.focus("lineEdit",self_str,"lineEdit_2"))
-        self.ui.lineEdit_2.textChanged.connect(self.focus("lineEdit_2",self_str,"lineEdit"))
-        self.ui.label_32.setText(tope_str)
-        self.ui.label_34.setText(usdtstr)
-        self.ui.label_31.setText(moneda)
-        self.ui.label_25.setText(moneda)
-        self.ui.label_27.setText(moneda)
-        self.ui.pushButton_33.clicked.connect(lambda: self.sell_buy("USDT",moneda,))
-        self.ui.pushButton_34.clicked.connect(lambda: self.sell_buy(moneda,"USDT"))
-        self.ui.stackedWidget_2.setCurrentIndex(5)
-    
-    def focus(self,nombre,self_str,nombre2):
-        nombreButt= "pushButton_" +self_str
-        
-        objeto = getattr(self.ui, nombre)
-        objeto2 = getattr(self.ui,nombreButt)
-        objeto3 =getattr(self.ui,nombre2)
-        if objeto.hasFocus():
-            str_multiplicado = objeto.text()
-            int_multiplicado = float(str_multiplicado)
-            str_multiplicador = objeto2.text()
-            int_multiplicador = float(str_multiplicador)
-            total = int_multiplicado * int_multiplicador
-            str_total = str(total)
-            objeto3.setText(str_total)
-            
-            
-
+    ###############################################################################
+    ################ Funciones de la pagina de login/singup #######################
 
     def login_singup(self):
         if self.inicio == "Login":
@@ -219,34 +319,47 @@ class MainWindow(QMainWindow):
             datos = self.datos.login_api(email,password)
 
             self.idUser = datos["idUser"]
-            self.usdt =datos["USDT"]
-            self.tf_btc = datos["TF-BTC"]
-            self.mr_btc = datos["MR-BTC"]
-            self.mc_btc = datos["MC-BTC"]
-            self.tf_eth = datos["TF-ETH"]
-            self.mr_eth = datos["MR-ETH"]
-            self.mc_eth = datos["MC-ETH"]
-            self.tf_bnb = datos["TF-BNB"]
-            self.mr_bnb = datos["MR-BNB"]
-            self.mc_bnb = datos["MC-BNB"]
-            self.tf_usdc = datos["TF-USDC"]
-            self.mr_usdc = datos["MR-USDC"]
-            self.mc_usdc = datos["MC-USDC"]
+            dato_round = round(datos["USDT"],3)
+            self.usdt =str(dato_round)
+            dato_round = round(datos["TF-BTC"],3)
+            self.tf_btc = str(dato_round)
+            dato_round = round(datos["MR-BTC"],3)
+            self.mr_btc = str(dato_round)
+            dato_round = round(datos["MC-BTC"],3)
+            self.mc_btc = str(dato_round)
+            dato_round = round(datos["TF-ETH"],3)
+            self.tf_eth = str(dato_round)
+            dato_round = round(datos["MR-ETH"],3)
+            self.mr_eth = str(dato_round)
+            dato_round = round(datos["MC-ETH"],3)
+            self.mc_eth = str(dato_round)
+            dato_round = round(datos["TF-BNB"],3)
+            self.tf_bnb = str(dato_round)
+            dato_round = round(datos["MR-BNB"],3)
+            self.mr_bnb = str(dato_round)
+            dato_round = round(datos["MC-BNB"],3)
+            self.mc_bnb = str(dato_round)
+            dato_round = round(datos["TF-USDC"],3)
+            self.tf_usdc = str(dato_round)
+            dato_round = round(datos["MR-USDC"],3)
+            self.mr_usdc = str(dato_round)
+            dato_round = round(datos["MC-USDC"],3)
+            self.mc_usdc = str(dato_round)
 
-            self.ui.label_24.setText(str(self.usdt))
-            self.ui.label_4.setText(str(self.usdt))
-            self.ui.label_5.setText(str(self.tf_btc))
-            self.ui.label_6.setText(str(self.mr_btc))
-            self.ui.label_12.setText(str(self.mc_btc))
-            self.ui.label_13.setText(str(self.tf_eth))
-            self.ui.label_14.setText(str(self.mr_eth))
-            self.ui.label_15.setText(str(self.mc_eth))
-            self.ui.label_16.setText(str(self.tf_bnb))
-            self.ui.label_17.setText(str(self.mr_bnb))
-            self.ui.label_19.setText(str(self.mc_bnb))
-            self.ui.label_20.setText(str(self.tf_usdc))
-            self.ui.label_21.setText(str(self.mr_usdc))
-            self.ui.label_22.setText(str(self.mc_usdc))
+            self.ui.label_24.setText(self.usdt)
+            self.ui.label_4.setText(self.usdt)
+            self.ui.label_5.setText(self.tf_btc)
+            self.ui.label_6.setText(self.mr_btc)
+            self.ui.label_12.setText(self.mc_btc)
+            self.ui.label_13.setText(self.tf_eth)
+            self.ui.label_14.setText(self.mr_eth)
+            self.ui.label_15.setText(self.mc_eth)
+            self.ui.label_16.setText(self.tf_bnb)
+            self.ui.label_17.setText(self.mr_bnb)
+            self.ui.label_19.setText(self.mc_bnb)
+            self.ui.label_20.setText(self.tf_usdc)
+            self.ui.label_21.setText(self.mr_usdc)
+            self.ui.label_22.setText(self.mc_usdc)
 
             self.ui.pushButton_6.setText("CERRAR SESIÓN")
 
@@ -259,6 +372,7 @@ class MainWindow(QMainWindow):
             self.ui.pushButton_6.setText("CERRAR SESIÓN")
 
             self.ui.label_24.setText("1000")
+            self.ui.label_4.setText("1000")
 
             self.ui.stackedWidget.setCurrentIndex(0)
             
@@ -292,7 +406,7 @@ class MainWindow(QMainWindow):
                     self.ui.pushButton_mr_btc.setText(valor)
                     try:
                         value_bot=self.mr_btc
-                        numero = float(value_bot)
+                        numero =float(value_bot)
                         val =float(valor)
                         total += (numero*val)
                     except ValueError:
@@ -420,10 +534,10 @@ class MainWindow(QMainWindow):
 
 
         usdt = float(self.usdt)
-        self.ui.label_2.setText(str(total+usdt))
-        
+        self.ui.label_2.setText(str(round((total+usdt),3)))
+    ###############################################################################    
 
-
+#######################################################################################
 
 
 if __name__ == "__main__":

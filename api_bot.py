@@ -59,13 +59,15 @@ class api:
             return data
     def sell_buy(self,idUser,coin_compra,compra,coin_venta,venta):
         try:
+            print(f"idU: {idUser} \nMoneda Compra:{coin_compra}\nMonto{compra}\nMoneda venta:{coin_venta}\nMonto:{venta}")
             idUser_encoded = urllib.parse.quote(idUser)
             coin_compra_encoded = urllib.parse.quote(coin_compra)
             compra_compra_encoded = urllib.parse.unquote(compra)
             coin_venta_encoded = urllib.parse.quote(coin_venta)
             venta_encoded = urllib.parse.unquote(venta)
-            url = self.ip_port + f"sell_buy/{idUser_encoded}/{coin_compra_encoded}/{compra_compra_encoded}/{coin_venta_encoded}/{venta_encoded}"
 
+            url = self.ip_port + f"sell_buy/{idUser_encoded}/{coin_compra_encoded}/{compra_compra_encoded}/{coin_venta_encoded}/{venta_encoded}"
+            
             response = requests.get(url)
             data = response.json()
             
